@@ -12,7 +12,8 @@ archive. Servers read the index to install and update plugins.
 | `index.toml` | Index name and the WIT APIs the index accepts. |
 | `plugins/<id>.toml` | One entry per plugin: `id`, `repo`, and `tag_pattern`. |
 | `scripts/build_index.py` | Builds the index from GitHub releases; `--validate` checks its shape. |
-| `.github/workflows/ci.yml` | Builds and validates the index on every pull request. |
+| `.github/workflows/ci.yml` | Builds and validates the index on every pull request; on pushes to `main`, a daily schedule, and manual runs, signs and publishes it. |
+| `public.minisign` | The public key the published index is signed with. |
 
 ## Adding a plugin
 
@@ -40,6 +41,23 @@ The builder needs only Python 3.11 or newer.
   cannot disappear silently.
 - Plugin metadata (name, description, provides, homepage, license) is taken
   from the newest compatible version.
+
+## Publishing
+
+Pushes to `main`, the daily schedule, and manual runs publish the index to
+GitHub Pages at `https://hearthsound.github.io/plugins/v1/index.json`, with its
+detached signature at `.../v1/index.json.minisig`. The workflow signs the index
+with the minisign secret key held in the `MINISIGN_SECRET_KEY` repository
+secret, verifies the signature against `public.minisign`, and deploys only if
+the verification succeeds.
+
+To verify a published index by hand:
+
+```sh
+curl -fsSLO https://hearthsound.github.io/plugins/v1/index.json
+curl -fsSLO https://hearthsound.github.io/plugins/v1/index.json.minisig
+minisign -V -p public.minisign -m index.json -x index.json.minisig
+```
 
 ## License
 

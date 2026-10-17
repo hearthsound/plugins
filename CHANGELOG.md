@@ -10,3 +10,7 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 - The official plugin index builder (`scripts/build_index.py`) and the entries
   for the Deezer, MusicBrainz, and slskd plugins.
+- Signed publishing: pushes to `main` and the daily schedule build the index,
+  sign it with the official minisign key, verify the signature against
+  `public.minisign`, and publish `v1/index.json` and `v1/index.json.minisig`
+  through GitHub Pages.

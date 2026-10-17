@@ -2,9 +2,18 @@ name: CI
 
 on:
   pull_request:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "17 4 * * *"
+  workflow_dispatch:
 
 permissions:
   contents: read
+
+concurrency:
+  group: index-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   index:
@@ -21,3 +30,53 @@ jobs:
         run: python3 scripts/build_index.py --out site/v1/index.json
       - name: Validate the index shape
         run: python3 scripts/build_index.py --validate site/v1/index.json
+
+  publish:
+    name: Sign and publish the index
+    if: github.event_name != 'pull_request'
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Enable GitHub Pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+      - name: Build the index
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python3 scripts/build_index.py --out site/v1/index.json
+      - name: Validate the index shape
+        run: python3 scripts/build_index.py --validate site/v1/index.json
+      - name: Install the signing tool
+        run: cargo install rsign2 --version 0.6.7 --locked
+      - name: Sign the index
+        env:
+          MINISIGN_SECRET_KEY: ${{ secrets.MINISIGN_SECRET_KEY }}
+        run: |
+          set -euo pipefail
+          key="$RUNNER_TEMP/plugins-index.key"
+          umask 077
+          printf '%s\n' "$MINISIGN_SECRET_KEY" > "$key"
+          chmod 600 "$key"
+          "$HOME/.cargo/bin/rsign" sign -W -s "$key" -x site/v1/index.json.minisig site/v1/index.json
+          rm -f "$key"
+      - name: Verify the signature against the committed public key
+        run: |
+          set -euo pipefail
+          "$HOME/.cargo/bin/rsign" verify site/v1/index.json -p public.minisign -x site/v1/index.json.minisig
+      - name: Upload the Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
