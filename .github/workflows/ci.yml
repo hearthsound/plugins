@@ -34,9 +34,10 @@ jobs:
   publish:
     name: Sign and publish the index
     if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: https://hearthsound.github.io/plugins/
     permissions:
       contents: read
       pages: write
