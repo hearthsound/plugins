@@ -1,0 +1,3 @@
+id = "app.hearthsound.slskd"
+repo = "hearthsound/plugin-slskd"
+tag_pattern = "v{version}"

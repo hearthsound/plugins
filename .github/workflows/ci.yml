@@ -1,0 +1,23 @@
+name: CI
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  index:
+    name: Build and validate the index
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Build the unsigned index
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python3 scripts/build_index.py --out site/v1/index.json
+      - name: Validate the index shape
+        run: python3 scripts/build_index.py --validate site/v1/index.json

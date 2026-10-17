@@ -1,0 +1,3 @@
+id = "app.hearthsound.deezer"
+repo = "hearthsound/plugin-deezer"
+tag_pattern = "v{version}"
