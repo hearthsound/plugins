@@ -14,3 +14,9 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   sign it with the official minisign key, verify the signature against
   `public.minisign`, and publish `v1/index.json` and `v1/index.json.minisig`
   through GitHub Pages.
+
+### Changed
+
+- The index accepts releases built for the `hearthsound:plugin@0.3.0` API next
+  to those built for `hearthsound:plugin@0.2.0`, so servers on either API find
+  compatible versions.
