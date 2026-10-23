@@ -1,0 +1,3 @@
+id = "app.hearthsound.ytdlp"
+repo = "hearthsound/plugin-ytdlp"
+tag_pattern = "v{version}"

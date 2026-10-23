@@ -1,0 +1,3 @@
+id = "app.hearthsound.theaudiodb"
+repo = "hearthsound/plugin-theaudiodb"
+tag_pattern = "v{version}"

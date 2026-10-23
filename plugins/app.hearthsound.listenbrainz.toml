@@ -1,0 +1,3 @@
+id = "app.hearthsound.listenbrainz"
+repo = "hearthsound/plugin-listenbrainz"
+tag_pattern = "v{version}"

@@ -1,0 +1,3 @@
+id = "app.hearthsound.lastfm"
+repo = "hearthsound/plugin-lastfm"
+tag_pattern = "v{version}"

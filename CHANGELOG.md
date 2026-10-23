@@ -14,6 +14,8 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   sign it with the official minisign key, verify the signature against
   `public.minisign`, and publish `v1/index.json` and `v1/index.json.minisig`
   through GitHub Pages.
+- Entries for the ListenBrainz, Last.fm, TheAudioDB, Lidarr, yt-dlp and
+  AcoustID plugins.
 
 ### Changed
 

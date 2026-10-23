@@ -1,0 +1,3 @@
+id = "app.hearthsound.lidarr"
+repo = "hearthsound/plugin-lidarr"
+tag_pattern = "v{version}"
