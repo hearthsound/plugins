@@ -22,3 +22,6 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - The index accepts releases built for the `hearthsound:plugin@0.3.0` API next
   to those built for `hearthsound:plugin@0.2.0`, so servers on either API find
   compatible versions.
+- The index accepts releases built for the `hearthsound:plugin@0.4.0` API next
+  to the 0.3.0 and 0.2.0 releases, so a server on any of the three APIs finds
+  compatible versions.
