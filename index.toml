@@ -3,4 +3,5 @@ supportedApis = [
   "hearthsound:plugin@0.2.0",
   "hearthsound:plugin@0.3.0",
   "hearthsound:plugin@0.4.0",
+  "hearthsound:plugin@0.5.0",
 ]
